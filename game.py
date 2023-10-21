@@ -1,5 +1,6 @@
 import arcade
 from config import *
+from sprites import Block
 
 
 class MyGame(arcade.Window):
@@ -13,12 +14,17 @@ class MyGame(arcade.Window):
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+        self.first_block = None
 
         self.background = arcade.load_texture('images/background.png')
 
     def setup(self):
 
         self.blocks_list = arcade.SpriteList()
+
+        self.first_block = Block('block4x1', 1, 1)
+
+        self.blocks_list.append(self.first_block)
 
     def on_draw(self):
         self.clear()
