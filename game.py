@@ -31,7 +31,7 @@ class MyGame(arcade.Window):
         self.background = arcade.load_texture('images/background.png')
 
     def setup(self):
-        self.ground = arcade.Sprite('images/ground.png', center_x=176, center_y=500, hit_box_algorithm='Simple')
+        self.ground = arcade.Sprite('images/ground.png', center_x=176, center_y=0, hit_box_algorithm='Simple')
         self.blocks_list = arcade.SpriteList()
 
         self.block_1 = Block('block1', 8, 20)
@@ -50,7 +50,7 @@ class MyGame(arcade.Window):
         self.next_block_name = random.choice(self.blocks_images)
         self.next_block_image = arcade.load_texture(f'images/{self.next_block_name}.png')
         self.next_block = Block(self.next_block_name, 5, 2)
-        self.blocks_list.append(self.next_block)
+        # self.blocks_list.append(self.next_block)
 
         self.physics_engine = arcade.PymunkPhysicsEngine((0, -1000))
         self.physics_engine.add_sprite(self.ground, collision_type='wall', body_type=arcade.PymunkPhysicsEngine.STATIC,
