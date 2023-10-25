@@ -1,9 +1,22 @@
 import arcade
 from config import *
 
-blocks_images = {'block1': 'images/block1.png', 'block2': 'images/block2.png', 'block4x1': 'images/block4x1.png',
-                 'block4x4': 'images/block4x4.png'}
+
+# blocks_images = {'block1': arcade.load_texture('images/block1.png'), 'block2': arcade.load_texture('images/block2.png'),
+#                  'block4x1': arcade.load_texture('images/block4x1.png'),
+#                  'block2x2': arcade.load_texture('images/block2x2.png')}
 row_cords_x = {
+    1: 5,
+    2: 40,
+    3: 75,
+    4: 110,
+    5: 145,
+    6: 180,
+    7: 215,
+    8: 250,
+    9: 285,
+    10: 320}
+column_cords_y = {
     1: 670,
     2: 635,
     3: 600,
@@ -24,30 +37,25 @@ row_cords_x = {
     18: 75,
     19: 40,
     20: 5}
-column_cords_y = {
-    1: 5,
-    2: 40,
-    3: 75,
-    4: 110,
-    5: 145,
-    6: 180,
-    7: 215,
-    8: 250,
-    9: 285,
-    10: 320}
 
 
 class Block(arcade.Sprite):
     def __init__(self, block_name: str, row, column):
-        super().__init__()
+        super().__init__(hit_box_algorithm='Detailed', filename=f'images/{block_name}.png')
         self.block_name = block_name
         self.row = row
         self.column = column
-        self.picture = arcade.load_texture(blocks_images.get(block_name))
-        # self.picture = arcade.load_texture(f'images/{block_name}.png')
-        self.center_x = row_cords_x.get(row)
-        self.center_y = column_cords_y.get(column)
+        # self.texture = blocks_images.get(self.block_name)
+        if self.block_name == 'block4x1':
+            self.center_x = row_cords_x.get(row) + self.texture.width // 2 - 1
+            self.center_y = column_cords_y.get(column) + self.texture.height // 2
+        if self.block_name == 'block2x2':
+            self.center_x = row_cords_x.get(row) + self.texture.width // 2 - 1
+            self.center_y = column_cords_y.get(column) + self.texture.height // 2 - 1
+        if self.block_name == 'block2':
+            self.center_x = row_cords_x.get(row) + self.texture.width // 2
+            self.center_y = column_cords_y.get(column) + self.texture.height // 2 - 1
+        if self.block_name == 'block1':
+            self.center_x = row_cords_x.get(row) + self.texture.width // 2
+            self.center_y = column_cords_y.get(column) + self.texture.height // 2 - 1
 
-    # def on_draw(self):
-    #     arcade.draw_lrwh_rectangle_textured(self.center_x, self.center_y,
-    #                                         self.picture.width, self.picture.height, self.picture)
