@@ -27,6 +27,7 @@ class MyGame(arcade.Window):
         self.next_block_image = None
         self.blocks_images = None
         self.ground = None
+        self.game_field = [[0 for _ in range(0, 10)] for _ in range(0, 20)]
 
         self.background = arcade.load_texture('images/background.png')
 
@@ -34,10 +35,10 @@ class MyGame(arcade.Window):
         self.ground = arcade.Sprite('images/ground.png', center_x=176, center_y=0, hit_box_algorithm='Simple')
         self.blocks_list = arcade.SpriteList()
 
-        self.block_1 = Block('block1', 8, 20)
-        self.block_2 = Block('block2', 1, 5)
-        self.block2x2 = Block('block2x2', 1, 8)
-        self.block4x1 = Block('block4x1', 1, 15)
+        self.block_1 = Block('block1', 8, 20, 0)
+        self.block_2 = Block('block2', 1, 5, 0)
+        self.block2x2 = Block('block2x2', 1, 8, 0)
+        self.block4x1 = Block('block4x1', 1, 15, 0)
 
         self.blocks_list.append(self.block_1)
         self.blocks_list.append(self.block_2)
@@ -49,13 +50,8 @@ class MyGame(arcade.Window):
                               'block2x2']
         self.next_block_name = random.choice(self.blocks_images)
         self.next_block_image = arcade.load_texture(f'images/{self.next_block_name}.png')
-        self.next_block = Block(self.next_block_name, 5, 2)
-        # self.blocks_list.append(self.next_block)
-
-        self.physics_engine = arcade.PymunkPhysicsEngine((0, -1000))
-        self.physics_engine.add_sprite(self.ground, collision_type='wall', body_type=arcade.PymunkPhysicsEngine.STATIC,
-                                       friction=1)
-        self.physics_engine.add_sprite_list(self.blocks_list, friction=0, damping=0, collision_type='player')
+        self.next_block = Block(self.next_block_name, 5, 2, 0)
+        self.blocks_list.append(self.next_block)
 
     def on_draw(self):
         self.clear()
@@ -74,13 +70,26 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time):
         self.blocks_list.update()
-        self.physics_engine.step()
 
     def on_key_press(self, key, modifiers):
         pass
 
     def on_key_release(self, key, modifiers):
-        pass
+        if key == arcade.key.D:
+            self.next_block.angle -= 90
+            print(self.next_block.angle)
+        if key == arcade.key.A:
+            self.next_block.angle += 90
+            print(self.next_block.angle)
+        if key == arcade.key.DOWN:
+            # self.next_block.center_y -= 35
+            self.next_block.column += 2
+        if key == arcade.key.RIGHT:
+            # self.next_block.center_x += 35
+            self.next_block.row += 1
+        if key == arcade.key.LEFT:
+            # self.next_block.center_x -= 35
+            self.next_block.row -= 1
 
 
 def main():
